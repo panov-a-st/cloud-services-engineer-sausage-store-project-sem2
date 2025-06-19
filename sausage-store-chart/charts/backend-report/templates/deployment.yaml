@@ -48,13 +48,13 @@ spec:
 {{ toYaml .Values.livenessProbe | indent 12 }}
           resources:
 {{ toYaml .Values.resources | indent 12 }}
-    volumes:
-      - name: {{ .Release.Name }}-{{ .Chart.Name }}-conf
-        configMap:
-          name: {{ .Release.Name }}-{{ .Chart.Name }}-conf
-          items:
-              - key: PORT
-                path: PORT
+      volumes:
+        - name: {{ .Release.Name }}-{{ .Chart.Name }}-conf
+          configMap:
+            name: {{ .Release.Name }}-{{ .Chart.Name }}-conf
+            items:
+                - key: PORT
+                  path: PORT
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -75,9 +75,4 @@ spec:
   minReplicas: {{ .Values.hpa.minReplicas }}
   maxReplicas: {{ .Values.hpa.maxReplicas }}
   metrics:
-    - type: Resource
-      resource:
-        name: cpu
-        target:
-          type: Utilization
-          averageUtilization: {{ .Values.hpa.averageUtilization }}
+{{ toYaml .Values.hpa.metrics | indent 4 }}
