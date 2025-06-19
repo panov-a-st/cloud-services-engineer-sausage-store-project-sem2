@@ -122,7 +122,7 @@ jobs:
             --set global.vault.name=vault \
             --set global.vault.host="${{ env.VAULT_HOST }}" \
             --set global.vault.vaultToken="${{ env.VAULT_TOKEN }}" \
-            --set backend_report.image_tag=${{ github.sha }} \
-            --set backend.image_tag=${{ github.sha }} \
-            --set frontend.image_tag=${{ github.sha }}
+            --set backend_report.image.tag=${{ github.sha }} \
+            --set backend.image.tag=${{ github.sha }} \
+            --set frontend.image.tag=${{ github.sha }}
             rm -f kubeconfig

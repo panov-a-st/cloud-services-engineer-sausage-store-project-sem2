@@ -1,6 +1,5 @@
 global:
   imagePullPolicy: Always
-  dockerLogin: panovast
   vault:
     host: ""
     vaultToken: ""
@@ -19,7 +18,9 @@ frontend:
     tls:
       secretName: 2sem-students-projects-wildcard-secret
   containerPort: 80
-  image: panovast/sausage-frontend:{{ .Chart.AppVersion }}
+  image:
+    repository: panovast/sausage-frontend
+    tag: latest
   resources:
     requests:
       memory: "128Mi"
@@ -46,7 +47,9 @@ backend:
   rollingUpdate:
     maxUnavailable: 1
     maxSurge: 2
-  image: panovast/sausage-backend:{{ .Chart.AppVersion }}
+  image:
+    repository: panovast/sausage-backend
+    tag: latest
   imagePullPolicy: Always
   resources:
     requests:
@@ -98,7 +101,9 @@ backend:
 
 backend-report:
   replicas: 1
-  image: panovast/sausage-backend-report:{{ .Chart.AppVersion }}
+  image:
+    repository: panovast/sausage-backend-report
+    tag: latest
   imagePullPolicy: Always
   revisionHistoryLimit: 15
   containerPort: 8080
