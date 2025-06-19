@@ -159,10 +159,6 @@ infra:
     persistence:
       enabled: true
       size: 1Gi
-    env:
-      POSTGRES_USER: store_user
-      POSTGRES_PASSWORD: store_password
-      POSTGRES_DB: store_db
     resources:
       requests:
         memory: "256Mi"
@@ -172,7 +168,4 @@ infra:
         cpu: "250m"
     containerPort: 5432
   mongodb:
-    env:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: rootpassword
     containerPort: 27017
