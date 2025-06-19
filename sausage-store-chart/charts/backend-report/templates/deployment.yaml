@@ -24,8 +24,8 @@ spec:
     metadata:
       labels:
         app: {{ .Release.Name }}-{{ .Chart.Name }}
-  spec:
-    containers:
+    spec:
+      containers:
         - name: {{ .Chart.Name }}
           image: {{ .Values.global.dockerLogin }}/sausage-backend-report:{{ .Chart.AppVersion }}
           imagePullPolicy: {{ .Values.global.imagePullPolicy }}
