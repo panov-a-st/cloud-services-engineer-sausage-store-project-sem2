@@ -17,13 +17,13 @@ spec:
   replicas: {{ .Values.replicas }}
   strategy:
 {{ toYaml .Values.strategy | indent 4 }}
-selector:
-  matchLabels:
-    app: {{ .Release.Name }}-{{ .Chart.Name }}
-template:
-  metadata:
-    labels:
+  selector:
+    matchLabels:
       app: {{ .Release.Name }}-{{ .Chart.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-{{ .Chart.Name }}
   spec:
     containers:
         - name: {{ .Chart.Name }}
@@ -39,22 +39,22 @@ template:
             - name: DB
               valueFrom:
                 secretKeyRef:
-                  name: mongo-secrets
+                  name: mongodb-url-secret
                   key: mongodb.uri
+          ports:
+            - name: {{ .Chart.Name }}
+              containerPort: {{ .Values.containerPort }}
           livenessProbe:
 {{ toYaml .Values.livenessProbe | indent 12 }}
           resources:
 {{ toYaml .Values.resources | indent 12 }}
-ports:
-  - name: {{ .Chart.Name }}
-    containerPort: {{ .Values.containerPort }}
-volumes:
-  - name: {{ .Release.Name }}-{{ .Chart.Name }}-conf
-    configMap:
-      name: {{ .Release.Name }}-{{ .Chart.Name }}-conf
-      items:
-          - key: PORT
-            path: PORT
+    volumes:
+      - name: {{ .Release.Name }}-{{ .Chart.Name }}-conf
+        configMap:
+          name: {{ .Release.Name }}-{{ .Chart.Name }}-conf
+          items:
+              - key: PORT
+                path: PORT
 ---
 apiVersion: v1
 kind: ConfigMap

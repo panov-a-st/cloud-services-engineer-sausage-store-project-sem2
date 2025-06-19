@@ -48,22 +48,22 @@ spec:
               value: {{ .Values.global.vault.vaultToken | quote }}
             - name: SPRING_CLOUD_VAULT_HOST
               value: {{ .Values.global.vault.host | quote }}
-      resources:
-{{ toYaml .Values.resources | indent 12 }} 
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+          livenessProbe:
+{{ toYaml .Values.livenessProbe | indent 12 }}
           ports:
             - name: {{ .Chart.Name }}
               containerPort: {{ .Values.containerPort }}
-          livenessProbe:
-{{ toYaml .Values.livenessProbe | indent 12 }} 
       volumes:
       - name: {{ .Release.Name }}-{{ .Chart.Name }}-conf
         configMap:
           name: {{ .Release.Name }}-{{ .Chart.Name }}-conf
           items:
-            - key: report_path
-              path: report_path
             - key: log_path
               path: log_path
+            - key: report_path
+              path: report_path
 ---
 apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
@@ -75,6 +75,6 @@ spec:
     kind: Deployment
     name: {{ .Release.Name }}-{{ .Chart.Name }}
   updatePolicy:
-{{ toYaml .Values.vpa.updatePolicy | indent 4 }} 
+{{ toYaml .Values.vpa.updatePolicy | indent 4 }}
   resourcePolicy:
-{{ toYaml .Values.vpa.resourcePolicy | indent 4 }} 
+{{ toYaml .Values.vpa.resourcePolicy | indent 4 }}
