@@ -16,7 +16,7 @@ spec:
   revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
   replicas: {{ .Values.replicas }}
   strategy:
-  {{ toYaml .Values.strategy | indent 4 }}
+{{ toYaml .Values.strategy | indent 4 }}
 selector:
   matchLabels:
     app: {{ .Release.Name }}-{{ .Chart.Name }}
@@ -36,10 +36,15 @@ template:
               value: {{ .Values.global.vault.vaultToken | quote }}
             - name: SPRING_CLOUD_VAULT_HOST
               value: {{ .Values.global.vault.host | quote }}
+            - name: DB
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secrets
+                  key: mongodb.uri
           livenessProbe:
-            {{ toYaml .Values.livenessProbe | indent 12 }}
+{{ toYaml .Values.livenessProbe | indent 12 }}
           resources:
-            {{ toYaml .Values.resources | indent 12 }}
+{{ toYaml .Values.resources | indent 12 }}
 ports:
   - name: {{ .Chart.Name }}
     containerPort: {{ .Values.containerPort }}
