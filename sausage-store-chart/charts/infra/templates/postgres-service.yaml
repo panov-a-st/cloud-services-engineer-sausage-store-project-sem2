@@ -2,9 +2,20 @@ apiVersion: v1
 kind: Service
 metadata:
   name: postgres
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: postgresql
+    app.kubernetes.io/instance: "{{ .Release.Name }}"
+    app.kubernetes.io/version: "{{ .Chart.AppVersion }}"
+    app.kubernetes.io/managed-by: "{{ .Release.Service }}"
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    app.kubernetes.io/component: {{ .Chart.Name }}
+    app.kubernetes.io/part-of: {{ .Release.Name }}
 spec:
+  type: ClusterIP
   ports:
     - port: 5432
       targetPort: 5432
   selector:
-    app: postgres
+    app.kubernetes.io/name: postgresql
+    app.kubernetes.io/instance: "{{ .Release.Name }}"

@@ -2,8 +2,15 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: mongodb
-  annotations:
-    helm.sh/hook-weight: "-5"
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: {{ .Chart.Name }}
+    app.kubernetes.io/instance: "{{ .Release.Name }}"
+    app.kubernetes.io/version: "{{ .Chart.AppVersion }}"
+    app.kubernetes.io/managed-by: "{{ .Release.Service }}"
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    app.kubernetes.io/component: {{ .Chart.Name }}
+    app.kubernetes.io/part-of: {{ .Release.Name }}
 spec:
   serviceName: mongodb
   replicas: 1
@@ -20,7 +27,7 @@ spec:
         image: mongo:7.0
         envFrom:
           - secretRef:
-              name: mongodb-secret
+              name: mongodb-secrets
         ports:
         - containerPort: {{ .Values.mongodb.containerPort }}
         resources:
@@ -29,6 +36,7 @@ spec:
             cpu: "50m"
           limits:
             memory: "256Mi"
+            cpu: "250m"
         volumeMounts:
         - name: mongodb-data
           mountPath: /data/db
