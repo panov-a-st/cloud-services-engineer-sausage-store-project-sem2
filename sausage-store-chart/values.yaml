@@ -19,7 +19,7 @@ frontend:
     tls:
       secretName: 2sem-students-projects-wildcard-secret
   containerPort: 80
-  image: panovast/sausage-frontend:latest
+  image: panovast/sausage-frontend:{{ .Chart.AppVersion }}
   resources:
     requests:
       memory: "128Mi"
@@ -46,7 +46,7 @@ backend:
   rollingUpdate:
     maxUnavailable: 1
     maxSurge: 2
-  image: panovast/sausage-backend:latest
+  image: panovast/sausage-backend:{{ .Chart.AppVersion }}
   imagePullPolicy: Always
   resources:
     requests:
@@ -84,7 +84,7 @@ backend:
   vpa:
     enabled: true
     updatePolicy:
-      updateMode: "Auto"
+      updateMode: "Off"
     resourcePolicy:
       containerPolicies:
         - containerName: "*"
@@ -98,7 +98,7 @@ backend:
 
 backend-report:
   replicas: 1
-  image: panovast/sausage-backend-report:latest
+  image: panovast/sausage-backend-report:{{ .Chart.AppVersion }}
   imagePullPolicy: Always
   revisionHistoryLimit: 15
   containerPort: 8080
@@ -137,7 +137,7 @@ backend-report:
             type: Utilization
             averageUtilization: 80
   vpa:
-    enabled: true
+    enabled: false
     updatePolicy:
       updateMode: "Auto"
     resourcePolicy:

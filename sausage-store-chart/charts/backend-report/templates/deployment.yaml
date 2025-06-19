@@ -27,7 +27,7 @@ template:
   spec:
     containers:
         - name: {{ .Chart.Name }}
-          image: {{ .Values.global.dockerLogin }}/sausage-backend-report:latest
+          image: {{ .Values.global.dockerLogin }}/sausage-backend-report:{{ .Chart.AppVersion }}
           imagePullPolicy: {{ .Values.global.imagePullPolicy }}
           env:
             - name: PORT
