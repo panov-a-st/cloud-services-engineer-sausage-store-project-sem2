@@ -41,6 +41,11 @@ spec:
                 secretKeyRef:
                   name: mongodb-secrets
                   key: MONGO_INITDB_ROOT_PASSWORD
+            - name: MONGO_DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-secrets
+                  key: MONGO_DB_NAME
             - name: MONGO_DB_USER
               valueFrom:
                 secretKeyRef:
@@ -65,13 +70,13 @@ spec:
                 -p "$MONGO_INITDB_ROOT_PASSWORD" \
                 --authenticationDatabase admin \
                 --eval "
-                  db = db.getSiblingDB('reports');
+                  db = db.getSiblingDB('$MONGO_DB_NAME');
                   if (db.getUser('$MONGO_DB_USER') == null) {
                     db.createUser({
                       user: '$MONGO_DB_USER',
                       pwd: '$MONGO_DB_PASSWORD',
                       roles: [
-                        { role: 'readWrite', db: 'reports' }
+                        { role: 'readWrite', db: '$MONGO_DB_NAME' }
                       ]
                     });}
                 "

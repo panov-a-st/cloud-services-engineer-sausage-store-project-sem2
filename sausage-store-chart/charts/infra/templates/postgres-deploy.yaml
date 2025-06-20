@@ -1,10 +1,10 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: postgres
+  name: postgresql
   namespace: {{ .Release.Namespace }}
   labels:
-    app.kubernetes.io/name: postgres
+    app.kubernetes.io/name: postgresql
     app.kubernetes.io/instance: "{{ .Release.Name }}"
     app.kubernetes.io/version: "{{ .Chart.AppVersion }}"
     app.kubernetes.io/managed-by: "{{ .Release.Service }}"
@@ -15,14 +15,14 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: postgres
+      app: postgresql
   template:
     metadata:
       labels:
-        app: postgres
+        app: postgresql
     spec:
       containers:
-        - name: postgres
+        - name: postgresql
           image: postgres:16
           resources:
             requests:
@@ -37,24 +37,24 @@ spec:
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
-                  name: postgres-secret
+                  name: postgresql-secret
                   key: username
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: postgres-secret
+                  name: postgresql-secret
                   key: password
             - name: POSTGRES_DB
               valueFrom:
                 secretKeyRef:
-                  name: postgres-secret
+                  name: postgresql-secret
                   key: database
             - name: PGDATA
               value: /var/lib/postgresql/data/pgdata
           volumeMounts:
-            - name: postgres-storage
+            - name: postgresql-storage
               mountPath: /var/lib/postgresql/data
       volumes:
-        - name: postgres-storage
+        - name: postgresql-storage
           persistentVolumeClaim:
-            claimName: postgres-pvc
+            claimName: postgresql-pvc

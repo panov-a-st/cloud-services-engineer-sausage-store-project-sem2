@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: postgres
+  name: postgresql
   namespace: {{ .Release.Namespace }}
   labels:
-    app.kubernetes.io/name: postgres
+    app.kubernetes.io/name: postgresql
     app.kubernetes.io/instance: "{{ .Release.Name }}"
     app.kubernetes.io/version: "{{ .Chart.AppVersion }}"
     app.kubernetes.io/managed-by: "{{ .Release.Service }}"
@@ -17,5 +17,5 @@ spec:
     - port: 5432
       targetPort: 5432
   selector:
-    app.kubernetes.io/name: postgres
+    app.kubernetes.io/name: postgresql
     app.kubernetes.io/instance: "{{ .Release.Name }}"

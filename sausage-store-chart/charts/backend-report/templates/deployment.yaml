@@ -39,8 +39,8 @@ spec:
             - name: DB
               valueFrom:
                 secretKeyRef:
-                  name: mongodb-url-secret
-                  key: mongodb.uri
+                  name: mongodb-uri-secret
+                  key: MONGO_URI
           ports:
             - name: {{ .Chart.Name }}
               containerPort: {{ .Values.containerPort }}
