@@ -7,10 +7,10 @@ VALUES (1, 'Сливочная', 'https://res.cloudinary.com/sugrobov/image/uplo
        (5, 'Мюнхенская', 'https://res.cloudinary.com/sugrobov/image/upload/v1623323635/repos/sausages/2.jpg', 330.00),
        (6, 'Русская', 'https://res.cloudinary.com/sugrobov/image/upload/v1623323635/repos/sausages/1.jpg', 189.00);
 
--- Создадим случайные записи в таблице orders по примеру
+-- Создадим случайные записи в таблице orders по примеру, тысяч думаю достаточно
 INSERT INTO orders (id, status, date_created)
 SELECT i, (ARRAY ['pending', 'shipped', 'cancelled'])[floor(random() * 3 + 1)], DATE(NOW() - (random() * (NOW() + '90 days' - NOW())))
-FROM generate_series(1, 10000000) s(i);
+FROM generate_series(1, 100000) s(i);
 
 -- Создадим записи в order_product
 INSERT INTO order_product (quantity, order_id, product_id)

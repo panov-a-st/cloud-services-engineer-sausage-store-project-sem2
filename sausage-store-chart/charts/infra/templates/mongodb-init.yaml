@@ -77,7 +77,6 @@ spec:
                       pwd: '$MONGO_DB_PASSWORD',
                       roles: [
                         { role: 'readWrite', db: '$MONGO_DB_NAME' },
-                        { role: 'readWrite', db: 'sausage-store' }
                       ]
                     });}
                 "
