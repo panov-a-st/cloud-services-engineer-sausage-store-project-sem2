@@ -54,19 +54,18 @@ backend:
   resources:
     requests:
       memory: "256Mi"
-      cpu: "50m"
-    limits:
-      memory: "512Mi"
       cpu: "200m"
+    limits:
+      memory: "256Mi"
+      cpu: "500m"
   containerPort: 8080
   livenessProbe:
     httpGet:
       path: /actuator/health
       port: 8080
-    initialDelaySeconds: 30
+    initialDelaySeconds: 90
     periodSeconds: 15
     timeoutSeconds: 5
-    failureThreshold: 3
   hpa:
     enabled: true
     minReplicas: 1
@@ -96,7 +95,7 @@ backend:
             memory: "128Mi"
           maxAllowed:
             cpu: "200m"
-            memory: "512Mi"
+            memory: "256Mi"
           controlledResources: ["cpu", "memory"]
 
 backend-report:
@@ -114,10 +113,10 @@ backend-report:
   resources:
     requests:
       memory: "128Mi"
-      cpu: "100m"
+      cpu: "50m"
     limits:
-      memory: "256Mi"
-      cpu: "250m"
+      memory: "128Mi"
+      cpu: "100m"
   livenessProbe:
     httpGet:
       path: /api/v1/health
@@ -152,8 +151,8 @@ backend-report:
             cpu: "50m"
             memory: "128Mi"
           maxAllowed:
-            cpu: "200m"
-            memory: "512Mi"
+            cpu: "100m"
+            memory: "256Mi"
           controlledResources: ["cpu", "memory"]
 
 infra:
@@ -163,11 +162,11 @@ infra:
       size: 1Gi
     resources:
       requests:
-        memory: "256Mi"
+        memory: "128Mi"
         cpu: "100m"
       limits:
-        memory: "512Mi"
-        cpu: "250m"
+        memory: "256Mi"
+        cpu: "200m"
     containerPort: 5432
   mongodb:
     containerPort: 27017
