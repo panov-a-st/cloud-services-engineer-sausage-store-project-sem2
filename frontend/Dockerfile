@@ -16,6 +16,7 @@ COPY nginx.tmpl /etc/nginx/templates/default.conf.template
 COPY --from=build /app/dist/frontend/ /usr/share/nginx/html
 
 # Добавим healthcheck
+RUN apk add --no-cache curl
 HEALTHCHECK --interval=60s --timeout=5s CMD curl -f http://127.0.0.1/ || exit 1
 
 EXPOSE 80
